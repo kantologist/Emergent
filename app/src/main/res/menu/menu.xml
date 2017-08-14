@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:checked="true"
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
+        <item
+            android:id="@+id/inform"
+            android:checked="false"
+            android:title="@string/inform"
+            android:icon="@drawable/ic_library_books_black"/>
+        <item
+            android:id="@+id/map"
+            android:checked="false"
+            android:title="@string/map"
+            android:icon="@drawable/ic_map_black"
+            />
+    </group>
+
+</menu>

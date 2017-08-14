@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Emergent</string>
+    <string name="Toolbar">Report</string>
+    <string name="report">Report</string>
+    <string name="inform">Be informed</string>
+    <string name="map">Help around</string>
+    <string name="openDrawer">open</string>
+    <string name="closeDrawer">close</string>
+    <string name="emergency_number">911</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
