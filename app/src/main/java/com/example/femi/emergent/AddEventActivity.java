@@ -105,8 +105,8 @@ public class AddEventActivity extends AppCompatActivity
                             event.setTitle(title.getText().toString());
                             event.setDescription(desc.getText().toString());
                             if (imageSet){
-                                event.setImage(util.getCurrentPhotoPath());
-                            }
+                         event.setImage(util.getCurrentPhotoPath());
+                        }
                             event.setLat(mLastKnownLocation.getLatitude());
                             event.setLon(mLastKnownLocation.getLongitude());
                         }
