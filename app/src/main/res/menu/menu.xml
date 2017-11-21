@@ -19,6 +19,11 @@
             android:title="@string/map"
             android:icon="@drawable/ic_map_black"
             />
+        <item
+            android:id="@+id/about"
+            android:checked="false"
+            android:title="About"
+            android:icon="@drawable/ic_info"/>
     </group>
 
 </menu>

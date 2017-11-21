@@ -26,6 +26,9 @@ import Models.GetNews;
 import Models.News;
 import Rest.Api_Client;
 import Rest.Api_Interface;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,24 +39,24 @@ import retrofit2.Response;
 
 public class NewsFragment extends Fragment{
 
-    RecyclerView recyclerView;
+    @BindView(R.id.news_rv) RecyclerView recyclerView;
     NewsAdapter newsAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.news_swipe) SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager linearLayoutManager;
     List<News> newses;
     FloatingActionButton fab;
     private String source = "techcrunch";
+    private Unbinder unbinder;
     private static final String LOG_TAG = NewsFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstancestate){
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
         newses  = new ArrayList<>();
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.news_rv);
         newsAdapter = new NewsAdapter(getActivity(), newses);
         recyclerView.setAdapter(newsAdapter);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.news_swipe);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -129,5 +132,11 @@ public class NewsFragment extends Fragment{
             }
         });
         return newses;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

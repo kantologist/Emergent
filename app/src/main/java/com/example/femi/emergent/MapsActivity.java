@@ -42,6 +42,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import Models.Event;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -53,7 +55,7 @@ public class MapsActivity extends FragmentActivity
         LocationListener{
 
     private GoogleMap mMap;
-    FloatingActionButton fab;
+    @BindView(R.id.add_event) FloatingActionButton fab;
     Map<Marker, Event> eventMarker;
     private Realm realm;
     private GoogleApiClient mGoogleApiClient;
@@ -66,13 +68,13 @@ public class MapsActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         // add event with plus button
-        fab = (FloatingActionButton) findViewById(R.id.add_event);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

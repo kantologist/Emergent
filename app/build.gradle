@@ -25,6 +25,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-database:11.6.0'
+    implementation 'com.google.firebase:firebase-storage:11.6.0'
+    implementation 'com.google.firebase:firebase-auth:11.6.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -45,6 +48,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:11.6.0'
     compile 'frankiesardo:icepick:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
+    annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
     }
@@ -56,3 +60,5 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.3'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

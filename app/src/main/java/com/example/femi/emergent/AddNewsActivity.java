@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import Utils.Utils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AddNewsActivity extends AppCompatActivity {
-    Toolbar toolbar;
-    Button submit;
-    Button cancel;
-    ImageView image;
+    @BindView(R.id.add_toolbar) Toolbar toolbar;
+    @BindView(R.id.add_submit) Button submit;
+    @BindView(R.id.add_cancel) Button cancel;
+    @BindView(R.id.news_image) ImageView image;
     // utilities object
     Utils util = new Utils();
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -25,15 +27,14 @@ public class AddNewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
+        ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.add_toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        cancel = (Button) findViewById(R.id.add_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +42,6 @@ public class AddNewsActivity extends AppCompatActivity {
             }
         });
 
-        image = (ImageView) findViewById(R.id.news_image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

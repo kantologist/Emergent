@@ -13,15 +13,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NewsActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    ImageView detail_image;
-    TextView detail_title;
-    TextView detail_description;
-    TextView detail_author;
-    FloatingActionButton fab;
-    Button more;
+    @BindView(R.id.detail_toolbar) Toolbar toolbar;
+    @BindView(R.id.detail_image) ImageView detail_image;
+    @BindView(R.id.detail_title) TextView detail_title;
+    @BindView(R.id.detail_description) TextView detail_description;
+    @BindView(R.id.detail_author) TextView detail_author;
+    @BindView(R.id.detail_share) FloatingActionButton fab;
+    @BindView(R.id.more) Button more;
 
 
     @Override
@@ -29,11 +32,8 @@ public class NewsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        ButterKnife.bind(this);
 
-        detail_image = (ImageView) findViewById(R.id.detail_image);
-        detail_title = (TextView) findViewById(R.id.detail_title);
-        detail_description = (TextView) findViewById(R.id.detail_description);
-        detail_author = (TextView) findViewById(R.id.detail_author);
 
         final Intent current = getIntent();
         if(current != null && current.hasExtra("urlToImage")){
@@ -51,15 +51,12 @@ public class NewsActivity extends AppCompatActivity {
             detail_author.setText(current.getStringExtra("author"));
         }
 
-        toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                finish();
             }
         });
-        fab = (FloatingActionButton) findViewById(R.id.detail_share);
-        more  = (Button) findViewById(R.id.more);
 
         if (current!=null && current.hasExtra("url") && current.getStringExtra("url") != null){
             more.setVisibility(View.VISIBLE);

@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.io.File;
 
 import Utils.Utils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static java.security.AccessController.getContext;
 
@@ -23,22 +27,22 @@ public class HomeActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
     // utilities object
     Utils util = new Utils();
-    LinearLayout send;
-    LinearLayout news;
-    LinearLayout call;
-    LinearLayout help;
-    Toolbar toolbar;
+    @BindView(R.id.send) LinearLayout send;
+    @BindView(R.id.news) LinearLayout news;
+    @BindView(R.id.call) LinearLayout call;
+    @BindView(R.id.help) LinearLayout help;
+    @BindView(R.id.main_toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(LeakCanary.isInAnalyzerProcess(this)){
+            return;
+        }
+        LeakCanary.install(getApplication());
         setContentView(R.layout.activity_home);
-        send = (LinearLayout) findViewById(R.id.send);
-        news = (LinearLayout) findViewById(R.id.news);
-        call = (LinearLayout) findViewById(R.id.call);
-        help = (LinearLayout) findViewById(R.id.help);
+        ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle("Watchman");
 //        toolbar.setSubtitle("Lagos State");

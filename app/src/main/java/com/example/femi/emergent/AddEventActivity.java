@@ -28,6 +28,8 @@ import com.google.android.gms.location.places.Places;
 
 import Models.Event;
 import Utils.Utils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class AddEventActivity extends AppCompatActivity
@@ -35,12 +37,12 @@ public class AddEventActivity extends AppCompatActivity
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    Toolbar toolbar;
-    Button cancel;
-    Button submit;
-    EditText title;
-    EditText desc;
-    ImageView image;
+    @BindView(R.id.add_event_toolbar) Toolbar toolbar;
+    @BindView(R.id.add_event_cancel) Button cancel;
+    @BindView(R.id.add_event_submit) Button submit;
+    @BindView(R.id.edit_event_title) EditText title;
+    @BindView(R.id.edit_event_description) EditText desc;
+    @BindView(R.id.event_image) ImageView image;
     private Realm realm;
     private GoogleApiClient mGoogleApiClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -57,6 +59,7 @@ public class AddEventActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        ButterKnife.bind(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -68,7 +71,6 @@ public class AddEventActivity extends AppCompatActivity
         Realm.init(this);
         realm = Realm.getDefaultInstance();
 
-        toolbar = (Toolbar) findViewById(R.id.add_event_toolbar);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +78,6 @@ public class AddEventActivity extends AppCompatActivity
             }
         });
 
-        cancel = (Button) findViewById(R.id.add_event_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,19 +85,15 @@ public class AddEventActivity extends AppCompatActivity
             }
         });
 
-        image = (ImageView) findViewById(R.id.event_image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(util.dispatchTakePictureIntent(getApplicationContext()), REQUEST_TAKE_PHOTO);
             }
         });
-        submit = (Button) findViewById(R.id.add_event_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title = (EditText) findViewById(R.id.edit_event_title);
-                desc = (EditText) findViewById(R.id.edit_event_description);
                 if (mLastKnownLocation != null){
                     realm.executeTransaction(new Realm.Transaction(){
                         @Override

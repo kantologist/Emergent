@@ -28,8 +28,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
 import Fragments.ContactFragment;
 import Fragments.NewsFragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,26 +44,22 @@ public class MainActivity extends AppCompatActivity
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
     private  FragmentTransaction ft;
 
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.drawer) DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    ImageView toolbar_image;
-    CollapsingToolbarLayout toolbarLayout;
-    FloatingActionButton fab;
+    @BindView(R.id.navigation_view) NavigationView navigationView;
+    @BindView(R.id.toolbar_image) ImageView toolbar_image;
+    @BindView(R.id.title) CollapsingToolbarLayout toolbarLayout;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        PhoneCallListener phoneCallListener = new PhoneCallListener();
-//        TelephonyManager telephonyManager = (TelephonyManager) this
-//                .getSystemService(Context.TELEPHONY_SERVICE);
-//        telephonyManager.listen(phoneCallListener, PhoneStateListener.LISTEN_CALL_STATE);
+        ButterKnife.bind(this);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,22 +80,19 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
     }
 
     @Override
     public void onBackPressed(){
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -107,15 +105,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
        switch (id){
            case R.id.home: {
-//               ft = getSupportFragmentManager().beginTransaction();
-//               ft.replace(R.id.container, new ContactFragment(), CONTACTFRAGMENT_TAG);
-//               ft.commit();
-//               toolbar_image = (ImageView)findViewById(R.id.toolbar_image);
-//               toolbar_image.setImageResource(R.drawable.report);
-//               toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.title);
-//               toolbarLayout.setTitle(getString(R.string.report));
-//               fab.setImageResource(R.drawable.ic_call);
-//               break;
                Intent intent = new Intent(this, HomeActivity.class);
                startActivity(intent);
                break;
@@ -124,9 +113,7 @@ public class MainActivity extends AppCompatActivity
                ft = getSupportFragmentManager().beginTransaction();
                ft.replace(R.id.container, new NewsFragment(), NEWSFRAGMENT_TAG);
                ft.commit();
-               toolbar_image = (ImageView)findViewById(R.id.toolbar_image);
                toolbar_image.setImageResource(R.drawable.inform);
-               toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.title);
                toolbarLayout.setTitle(getString(R.string.inform));
                break;
            }
@@ -135,6 +122,17 @@ public class MainActivity extends AppCompatActivity
                startActivity(intent);
                break;
            }
+           case R.id.about: {
+               new LibsBuilder()
+                       .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                       .withAboutIconShown(true)
+                       .withAboutVersionShown(true)
+                       .withAboutDescription("Emergent was built by Oluwafemi Azeez.<br /> " +
+                               "Shoot me an email: <a href='mailto:azeezfemi17937@yahoo.com'>azeezfemi17937@yahoo.com</a> <br /> " +
+                               "This app is open sourced at <a href ='https://github.com/kantologist/Emergent'> github.com/kantologist/Emergent</a> <br />" +
+                               "Other open sourced libraries used are listed below.")
+                       .start(this);
+           }
            default:
                break;
        }
@@ -142,45 +140,5 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-//    private class PhoneCallListener extends PhoneStateListener {
-//
-//        private boolean isPhonecalling = false;
-//
-//        private String LOG_TAG = "LOGGING 123";
-//
-//
-//        @Override
-//        public void onCallStateChanged(int state, String incomingNumber) {
-//
-//            if (TelephonyManager.CALL_STATE_RINGING == state) {
-//
-//                Log.i(LOG_TAG, "Ringing, number: " + incomingNumber);
-//            }
-//
-//            if (TelephonyManager.CALL_STATE_OFFHOOK == state ) {
-//                Log.i(LOG_TAG, "offhok");
-//
-//                isPhonecalling = true;
-//            }
-//
-//            if (TelephonyManager.CALL_STATE_IDLE == state) {
-//                Log.i(LOG_TAG, "IDLE");
-//
-//                if (isPhonecalling) {
-//                    Log.i(LOG_TAG, "restart app");
-//
-//                    Intent i  = getBaseContext().getPackageManager()
-//                            .getLaunchIntentForPackage(
-//                                    getBaseContext().getPackageName());
-//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(i);
-//
-//                    isPhonecalling = false;
-//                }
-//            }
-//        }
-//    }
 
 }
