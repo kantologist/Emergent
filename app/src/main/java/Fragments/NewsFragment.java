@@ -32,6 +32,7 @@ import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by femi on 5/14/17.
@@ -54,6 +55,7 @@ public class NewsFragment extends Fragment{
                              Bundle savedInstancestate){
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        Timber.plant(new Timber.DebugTree());
         newses  = new ArrayList<>();
         newsAdapter = new NewsAdapter(getActivity(), newses);
         recyclerView.setAdapter(newsAdapter);
@@ -127,7 +129,7 @@ public class NewsFragment extends Fragment{
                 swipeRefreshLayout.setVisibility(View.GONE);
                 call.cancel();
                 Toast.makeText(getActivity(), "Please retry. No internet access", Toast.LENGTH_SHORT).show();
-                Log.i(LOG_TAG, "Network error: " + t.toString());
+                Timber.d("Network error: " + t.toString());
 
             }
         });
