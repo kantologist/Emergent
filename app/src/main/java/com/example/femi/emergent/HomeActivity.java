@@ -3,10 +3,13 @@ package com.example.femi.emergent;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,15 +26,32 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
+import Models.News;
+import Models.Report;
 import Utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static java.security.AccessController.getContext;
 
@@ -50,6 +70,12 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
+    private StorageReference mStorageReference;
+    private DatabaseReference mDatabaseReference;
+    private String mUseremail;
+    private String mUserphone;
+    private Uri photoPath;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +95,8 @@ public class HomeActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
 
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
@@ -76,16 +104,14 @@ public class HomeActivity extends AppCompatActivity
             finish();
             return;
         } else {
-//            mUsername = mFirebaseUser.getDisplayName();
+            mUseremail = mFirebaseUser.getEmail();
+            mUserphone = mFirebaseUser.getPhoneNumber();
 //            if (mFirebaseUser.getPhotoUrl() != null) {
 //                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
 //            }
         }
 
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("Watchman");
-//        toolbar.setSubtitle("Lagos State");
-//        toolbar.setLogo(R.drawable.logo);
 
 
         call.setOnClickListener(new View.OnClickListener() {
@@ -155,19 +181,107 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private void submitReport() {
+        if (photoPath == null ) {
+            Toast.makeText(this, "Take a photo first", Toast.LENGTH_SHORT).show();
+        } else {
+
+            Toast.makeText(this, "Posting report", Toast.LENGTH_SHORT).show();
+            File photo = new File("" + photoPath);
+            mStorageReference = FirebaseStorage.getInstance().getReference("report_photos/" + photo.getName());
+            InputStream is = null;
+            try {
+                is = getContentResolver().openInputStream(photoPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            mStorageReference.putBytes(data)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downLoadUrl = taskSnapshot.getDownloadUrl();
+                            String imageurl = downLoadUrl.toString();
+                            Report report = new Report("", imageurl, mUseremail, mUserphone);
+                            writeReport(report);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(HomeActivity.this, "Photo was not added successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
+
+
+    }
+
+    private void writeReport(Report report) {
+        mDatabaseReference.child("reports").push().setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "reports written successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "reports not written successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e(e);
+            }
+        });
+
+        Timber.d("transaction successful.");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        submitReport();
+
+                } else {
+                    Toast.makeText(this,"You have to grant permission to read the" +
+                            " storage to make a report", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-           Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + Uri.encode("azeezfemi17937@yahoo.com")));
-           intent.putExtra(Intent.EXTRA_SUBJECT, "Emergency");
-           intent.putExtra(Intent.EXTRA_TEXT, "There is an emergency situation going on please help");
-           Toast.makeText(getApplicationContext(), "There are clients "+ util.getCurrentPhotoPath(), Toast.LENGTH_SHORT).show();
-           Uri uri = Uri.fromFile(new File(util.getCurrentPhotoPath()));
-           intent.putExtra(Intent.EXTRA_STREAM, uri);
-           try{
-               startActivity(Intent.createChooser(intent, "Send email..."));
-           } catch (android.content.ActivityNotFoundException ex){
-               Toast.makeText(getApplicationContext(), "There are no email clients", Toast.LENGTH_SHORT).show();
+           photoPath = Uri.fromFile(new File(util.getCurrentPhotoPath()));
+           Timber.d("permission request");
+           if (ContextCompat.checkSelfPermission(this,
+                   Manifest.permission.READ_EXTERNAL_STORAGE)
+                   != PackageManager.PERMISSION_GRANTED) {
+               Timber.d("permission granted");
+               submitReport();
+           } else {
+               ActivityCompat.requestPermissions(this,
+                       new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                       MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+               Timber.d("permission asking");
            }
 
        }

@@ -1,12 +1,15 @@
 package Models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import io.realm.RealmObject;
 
 /**
  * Created by Femi on 08/06/2017.
  */
 
-public class Event extends RealmObject{
+@IgnoreExtraProperties
+public class Event{
 
     private String image;
     private String title;
@@ -14,6 +17,18 @@ public class Event extends RealmObject{
     private Double lat;
     private Double lon;
     private long id;
+
+    public Event(){}
+
+    public Event(String image, String title, String description, Double lat, Double lon, long id){
+        this.image = image;
+        this.title = title;
+        this.description =description;
+        this.lat = lat;
+        this.lon =lon;
+        this.id = id;
+
+    }
 
     public void setId(long id) {
         this.id = id;

@@ -44,8 +44,6 @@ import java.util.Map;
 import Models.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
@@ -57,7 +55,6 @@ public class MapsActivity extends FragmentActivity
     private GoogleMap mMap;
     @BindView(R.id.add_event) FloatingActionButton fab;
     Map<Marker, Event> eventMarker;
-    private Realm realm;
     private GoogleApiClient mGoogleApiClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -83,8 +80,6 @@ public class MapsActivity extends FragmentActivity
                 startActivity(intent);
             }
         });
-        Realm.init(getApplicationContext());
-        realm = Realm.getDefaultInstance();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -164,13 +159,13 @@ public class MapsActivity extends FragmentActivity
         }
 //        mMap.addMarker(new MarkerOptions().position(local));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(local, 15));
-        eventMarker = new HashMap<Marker, Event>();
-        RealmResults<Event> events = realm.where(Event.class).findAll();
+//        eventMarker = new HashMap<Marker, Event>();
+//        RealmResults<Event> events = realm.where(Event.class).findAll();
 //        Toast.makeText(this, "events are: "+ events.size(), Toast.LENGTH_SHORT).show();
-        for (Event event: events){
-            addMarkers(event);
-        }
-        mMap.setOnMarkerClickListener(this);
+//        for (Event event: events){
+//            addMarkers(event);
+//        }
+//        mMap.setOnMarkerClickListener(this);
     }
 
     private void addMarkers(Event event){
