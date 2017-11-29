@@ -87,6 +87,9 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        // enable offline Persistence
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -229,7 +232,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void writeReport(Report report) {
-        mDatabaseReference.child("reports").push().setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabaseReference.child("report").push().setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){

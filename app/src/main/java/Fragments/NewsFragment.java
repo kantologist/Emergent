@@ -1,6 +1,6 @@
 package Fragments;
 
-import android.content.Intent;
+ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,6 +17,13 @@ import com.example.femi.emergent.AddNewsActivity;
 import com.example.femi.emergent.BuildConfig;
 import com.example.femi.emergent.NewsActivity;
 import com.example.femi.emergent.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +55,7 @@ public class NewsFragment extends Fragment{
     FloatingActionButton fab;
     private String source = "techcrunch";
     private Unbinder unbinder;
-    private static final String LOG_TAG = NewsFragment.class.getSimpleName();
+    private DatabaseReference mDatabaseReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +63,8 @@ public class NewsFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         Timber.plant(new Timber.DebugTree());
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("news");
+        mDatabaseReference.keepSynced(true);
         newses  = new ArrayList<>();
         newsAdapter = new NewsAdapter(getActivity(), newses);
         recyclerView.setAdapter(newsAdapter);
@@ -70,7 +79,7 @@ public class NewsFragment extends Fragment{
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
-                getNews();
+                getNewsFromFirebase();
             }
         });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -110,30 +119,86 @@ public class NewsFragment extends Fragment{
         }));
         return rootView;
     }
+    private void getNews() {
+        newsAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
 
-    private List<News> getNews() {
-        Api_Interface api_interface = Api_Client.newsRequestBySource().create(Api_Interface.class);
-        Call<GetNews> call = api_interface.getNews(source,BuildConfig.API_KEY);
-        call.enqueue(new Callback<GetNews>() {
-            @Override
-            public void onResponse(Call<GetNews> call, Response<GetNews> response) {
-                newses = response.body().getArticles();
-                newsAdapter = new NewsAdapter(getActivity(), newses);
-                recyclerView.setAdapter(newsAdapter);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+    }
 
-            @Override
-            public void onFailure(Call<GetNews> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                swipeRefreshLayout.setVisibility(View.GONE);
-                call.cancel();
-                Toast.makeText(getActivity(), "Please retry. No internet access", Toast.LENGTH_SHORT).show();
-                Timber.d("Network error: " + t.toString());
+//    private List<News> getNews() {
+//        Api_Interface api_interface = Api_Client.newsRequestBySource().create(Api_Interface.class);
+//        Call<GetNews> call = api_interface.getNews(source,BuildConfig.API_KEY);
+//        call.enqueue(new Callback<GetNews>() {
+//            @Override
+//            public void onResponse(Call<GetNews> call, Response<GetNews> response) {
+//                newses = response.body().getArticles();
+//                newsAdapter = new NewsAdapter(getActivity(), newses);
+//                recyclerView.setAdapter(newsAdapter);
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetNews> call, Throwable t) {
+//                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setVisibility(View.GONE);
+//                call.cancel();
+//                Toast.makeText(getActivity(), "Please retry. No internet access", Toast.LENGTH_SHORT).show();
+//                Timber.d("Network error: " + t.toString());
+//
+//            }
+//        });
+//        return newses;
+//    }
 
-            }
-        });
-        return newses;
+    private void getNewsFromFirebase(){
+
+         mDatabaseReference.orderByKey().addChildEventListener(new ChildEventListener() {
+             @Override
+             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                 GenericTypeIndicator<List<News>> typeIndicator = new GenericTypeIndicator<List<News>>() {};
+                 News news = dataSnapshot.getValue(News.class);
+                 newses.add(news);
+                 getNews()  ;
+             }
+
+             @Override
+             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+             }
+
+             @Override
+             public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+             }
+
+             @Override
+             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+             }
+
+             @Override
+             public void onCancelled(DatabaseError databaseError) {
+                 Timber.e(databaseError.toException());
+                 swipeRefreshLayout.setRefreshing(false);
+                 swipeRefreshLayout.setVisibility(View.GONE);
+             }
+         });
+//        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                GenericTypeIndicator<List<News>> typeIndicator = new GenericTypeIndicator<List<News>>();
+//                List<News> newsList = dataSnapshot.getValue(typeIndicator);
+//                getNews(newsList);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Timber.e(databaseError.toException());
+//            swipeRefreshLayout.setRefreshing(false);
+//            swipeRefreshLayout.setVisibility(View.GONE);
+//
+//            }
+//        });
     }
 
     @Override

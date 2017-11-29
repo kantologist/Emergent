@@ -36,8 +36,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -60,6 +66,8 @@ public class MapsActivity extends FragmentActivity
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
     private LocationRequest mLocationRequest;
+    private DatabaseReference databaseReference;
+    private List<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +78,8 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference("event");
+        databaseReference.keepSynced(true);
 
         // add event with plus button
         fab.setOnClickListener(new View.OnClickListener() {
@@ -159,13 +169,44 @@ public class MapsActivity extends FragmentActivity
         }
 //        mMap.addMarker(new MarkerOptions().position(local));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(local, 15));
-//        eventMarker = new HashMap<Marker, Event>();
+        getEventsFromFirebase();
+        eventMarker = new HashMap<Marker, Event>();
 //        RealmResults<Event> events = realm.where(Event.class).findAll();
 //        Toast.makeText(this, "events are: "+ events.size(), Toast.LENGTH_SHORT).show();
 //        for (Event event: events){
 //            addMarkers(event);
 //        }
-//        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private void getEventsFromFirebase(){
+        databaseReference.orderByKey().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Event event = dataSnapshot.getValue(Event.class);
+                addMarkers(event);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void addMarkers(Event event){
