@@ -77,6 +77,8 @@ public class HomeActivity extends AppCompatActivity
     private Uri photoPath;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +89,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        // enable offline Persistence
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -99,6 +99,7 @@ public class HomeActivity extends AppCompatActivity
                 .build();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
 
 
         if (mFirebaseUser == null) {
@@ -112,6 +113,14 @@ public class HomeActivity extends AppCompatActivity
 //            if (mFirebaseUser.getPhotoUrl() != null) {
 //                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
 //            }
+        }
+
+
+        Intent intent = getIntent();
+        String report_key = intent.getStringExtra("report");
+        if("report".equals(report_key)){
+            startActivityForResult(util.dispatchTakePictureIntent(getApplicationContext()),
+                    REQUEST_TAKE_PHOTO);
         }
 
         setSupportActionBar(toolbar);
@@ -155,6 +164,7 @@ public class HomeActivity extends AppCompatActivity
      });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

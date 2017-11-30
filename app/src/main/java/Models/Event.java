@@ -2,7 +2,6 @@ package Models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import io.realm.RealmObject;
 
 /**
  * Created by Femi on 08/06/2017.

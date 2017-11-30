@@ -67,7 +67,6 @@ public class MapsActivity extends FragmentActivity
     private Location mLastKnownLocation;
     private LocationRequest mLocationRequest;
     private DatabaseReference databaseReference;
-    private List<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,15 +166,9 @@ public class MapsActivity extends FragmentActivity
         } else {
             local = new LatLng(6.46, 3.4);
         }
-//        mMap.addMarker(new MarkerOptions().position(local));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(local, 15));
         getEventsFromFirebase();
         eventMarker = new HashMap<Marker, Event>();
-//        RealmResults<Event> events = realm.where(Event.class).findAll();
-//        Toast.makeText(this, "events are: "+ events.size(), Toast.LENGTH_SHORT).show();
-//        for (Event event: events){
-//            addMarkers(event);
-//        }
         mMap.setOnMarkerClickListener(this);
     }
 
@@ -261,12 +254,6 @@ public class MapsActivity extends FragmentActivity
                     String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)",
                             event.getLat(), event.getLon(), "way to help");
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//                    Intent intent = new Intent(Intent.ACTION_VIEW,
-//                            Uri.parse("http://maps.google.com/maps?saddr="
-//                                    +mLastKnownLocation.getLatitude()+","
-//                                    +mLastKnownLocation.getLongitude()+"&daddr="
-//                                    +event.getLat()+","
-//                                    +event.getLon()));
                     startActivity(intent);
                 }
             });

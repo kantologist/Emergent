@@ -1,0 +1,60 @@
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e5eef1"
+        android:padding="@dimen/widget_margin"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/remote_send"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:src="@drawable/ic_security" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Report"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/body_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remote_call"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:src="@drawable/ic_call" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Call"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/body_text" />
+        </LinearLayout>
+
+    </LinearLayout>

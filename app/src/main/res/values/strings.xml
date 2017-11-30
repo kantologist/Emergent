@@ -8,4 +8,6 @@
     <string name="closeDrawer">close</string>
     <string name="emergency_number">911</string>
     <string name="title_activity_maps">Map</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
