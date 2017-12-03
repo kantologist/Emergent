@@ -22,13 +22,14 @@
                 android:id="@+id/news_thumbnail"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                />
+                android:contentDescription="@string/news_image" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/news_title"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@id/news_thumbnail"
+                android:paddingStart="15dp"
                 android:paddingLeft="15dp"
                 android:textSize="@dimen/body_text"
                 android:textColor="@android:color/black"/>
@@ -40,6 +41,7 @@
                 android:layout_toRightOf="@id/news_thumbnail"
                 android:layout_alignParentBottom="true"
                 android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:paddingBottom="8dp"
                 />
 

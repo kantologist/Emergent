@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -33,6 +35,7 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
+        Timber.plant(new Timber.DebugTree());
 
 
         final Intent current = getIntent();
@@ -58,8 +61,7 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        if (current!=null && current.hasExtra("url") && current.getStringExtra("url") != null){
-            more.setVisibility(View.VISIBLE);
+        if (current!=null && current.hasExtra("url") && !current.getStringExtra("url").equals(" ")){
             more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

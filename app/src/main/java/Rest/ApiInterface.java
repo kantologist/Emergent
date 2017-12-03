@@ -16,7 +16,7 @@ import retrofit2.http.Query;
  * Created by user on 5/14/17.
  */
 
-public interface Api_Interface {
+public interface ApiInterface {
 
     @GET("articles")
     Call<GetNews> getNews(

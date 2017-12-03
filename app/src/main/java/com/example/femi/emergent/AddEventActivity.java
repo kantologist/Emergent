@@ -26,7 +26,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +43,8 @@ import Models.Event;
 import Utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 public class AddEventActivity extends AppCompatActivity
@@ -66,7 +67,9 @@ public class AddEventActivity extends AppCompatActivity
     // utilities object
     Utils util = new Utils();
     private LocationRequest mLocationRequest;
-    private Uri photoPath;
+    @State Uri photoPath;
+    @State String currentPhotoPath;
+    @State(Event.class) Event event;
     private DatabaseReference mDatabaseReference;
     private StorageReference mStorageReference;
 
@@ -77,6 +80,14 @@ public class AddEventActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_event);
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
+        if(savedInstanceState != null){
+            Glide.with(getApplicationContext())
+                    .load(currentPhotoPath)
+                    .centerCrop()
+                    .into(image);
+        }
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -122,6 +133,12 @@ public class AddEventActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
+    }
+
     private void setEditingEnabled(boolean enabled) {
         title.setEnabled(enabled);
         desc.setEnabled(enabled);
@@ -139,11 +156,11 @@ public class AddEventActivity extends AppCompatActivity
         final String description = desc.getText().toString();
         final String author = desc.getText().toString();
         if (photoPath == null ) {
-            Toast.makeText(this, "Take a photo first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.photo_first), Toast.LENGTH_SHORT).show();
         } else {
             setEditingEnabled(false);
 
-            Toast.makeText(this, "Posting events", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.posting_event), Toast.LENGTH_SHORT).show();
             File photo = new File("" + photoPath);
             mStorageReference = FirebaseStorage.getInstance().getReference("event_photos/" + photo.getName());
 
@@ -160,18 +177,18 @@ public class AddEventActivity extends AppCompatActivity
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downLoadUrl = taskSnapshot.getDownloadUrl();
                             String imageurl = downLoadUrl.toString();
-                            Event event = new Event(imageurl, titleText, description,
+                            event = new Event(imageurl, titleText, description,
                                     mLastKnownLocation.getLatitude(),
                                     mLastKnownLocation.getLongitude(),
                                     1);
-                            writeEvents(event);
+                            writeEvents();
                             setEditingEnabled(true);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddEventActivity.this, "Photo was not added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddEventActivity.this, getString(R.string.photo_unsuccessful), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -180,14 +197,14 @@ public class AddEventActivity extends AppCompatActivity
 
     }
 
-    private void writeEvents(Event event) {
+    private void writeEvents() {
         mDatabaseReference.child("event").push().setValue(event).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "event written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.event_successful), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "event not written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.event_unsuccessful), Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -206,6 +223,7 @@ public class AddEventActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             photoPath = Uri.parse(util.getCurrentPhotoPath());
+            currentPhotoPath = util.getCurrentPhotoPath();
             Glide.with(getApplicationContext())
                     .load(util.getCurrentPhotoPath())
                     .centerCrop()
@@ -283,7 +301,7 @@ public class AddEventActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "You need internet to get your current location", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.location_internet), Toast.LENGTH_SHORT).show();
         finish();
     }
 

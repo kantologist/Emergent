@@ -118,7 +118,7 @@ implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Timber.w( "signInWithCredential");
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Toast.makeText(SignInActivity.this, getString(R.string.authentication_failed),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             startActivity(new Intent(SignInActivity.this, HomeActivity.class));
@@ -133,7 +133,7 @@ implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Timber.d( "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.google_play_error), Toast.LENGTH_SHORT).show();
     }
 
 }

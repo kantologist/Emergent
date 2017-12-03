@@ -8,7 +8,8 @@
         android:layout_height="50dp"
         android:layout_width="match_parent"
         android:src="@drawable/call"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/call_image" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,12 +27,13 @@
             android:background="@color/colorPrimary"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@drawable/ic_send"/>
+            android:src="@drawable/ic_send"
+            android:contentDescription="@string/report_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="send"
+                android:text="@string/report"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text"
                 android:layout_gravity="center"/>
@@ -47,11 +49,12 @@
             android:background="@color/colorPrimary"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@drawable/ic_library_books"/>
+            android:src="@drawable/ic_library_books"
+            android:contentDescription="@string/news_feed_image" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="News"
+                android:text="@string/news"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text"
                 android:layout_gravity="center"/>
@@ -77,13 +80,14 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:background="@color/colorPrimary"
-                android:src="@drawable/ic_call" />
+                android:src="@drawable/ic_call"
+                android:contentDescription="@string/call_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="call"
+                android:text="@string/call"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
@@ -98,11 +102,12 @@
             android:background="@color/colorPrimary"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@android:drawable/ic_dialog_map"/>
+            android:src="@android:drawable/ic_dialog_map"
+            android:contentDescription="@string/community_image" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Call for help"
+                android:text="@string/community"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text"
                 android:layout_gravity="center"/>

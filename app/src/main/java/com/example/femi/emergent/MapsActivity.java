@@ -269,12 +269,12 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "Connection suspended", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.suspended), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "You need internet to get your current location", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.location_internet), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,6 +1,10 @@
 package Models;
 
+import android.os.Bundle;
+
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import icepick.Bundler;
 
 
 /**
@@ -8,7 +12,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 
 @IgnoreExtraProperties
-public class Event{
+public class Event implements Bundler<Event>{
 
     private String image;
     private String title;
@@ -77,5 +81,15 @@ public class Event{
 
     public Double getLon() {
         return lon;
+    }
+
+    @Override
+    public void put(String s, Event event, Bundle bundle) {
+
+    }
+
+    @Override
+    public Event get(String s, Bundle bundle) {
+        return null;
     }
 }

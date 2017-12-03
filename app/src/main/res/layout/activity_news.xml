@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="218dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/inform" />
+            tools:src="@drawable/inform"
+            android:contentDescription="@string/news_image" />
 
         <TextView
             android:id="@+id/detail_title"
@@ -73,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="2dp"
-            android:text="More"
+            android:text="@string/more"
             android:visibility="gone"
             android:textColor="@android:color/black"/>
 

@@ -7,39 +7,28 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
+ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.femi.emergent.AddNewsActivity;
-import com.example.femi.emergent.BuildConfig;
-import com.example.femi.emergent.NewsActivity;
+ import com.example.femi.emergent.AddNewsActivity;
+ import com.example.femi.emergent.NewsActivity;
 import com.example.femi.emergent.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.NewsAdapter;
-import Models.GetNews;
-import Models.News;
-import Rest.Api_Client;
-import Rest.Api_Interface;
-import butterknife.BindView;
+ import Models.News;
+ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
+ import timber.log.Timber;
 
 /**
  * Created by femi on 5/14/17.
@@ -125,37 +114,11 @@ public class NewsFragment extends Fragment{
 
     }
 
-//    private List<News> getNews() {
-//        Api_Interface api_interface = Api_Client.newsRequestBySource().create(Api_Interface.class);
-//        Call<GetNews> call = api_interface.getNews(source,BuildConfig.API_KEY);
-//        call.enqueue(new Callback<GetNews>() {
-//            @Override
-//            public void onResponse(Call<GetNews> call, Response<GetNews> response) {
-//                newses = response.body().getArticles();
-//                newsAdapter = new NewsAdapter(getActivity(), newses);
-//                recyclerView.setAdapter(newsAdapter);
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GetNews> call, Throwable t) {
-//                swipeRefreshLayout.setRefreshing(false);
-//                swipeRefreshLayout.setVisibility(View.GONE);
-//                call.cancel();
-//                Toast.makeText(getActivity(), "Please retry. No internet access", Toast.LENGTH_SHORT).show();
-//                Timber.d("Network error: " + t.toString());
-//
-//            }
-//        });
-//        return newses;
-//    }
-
     private void getNewsFromFirebase(){
 
          mDatabaseReference.orderByKey().addChildEventListener(new ChildEventListener() {
              @Override
              public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                 GenericTypeIndicator<List<News>> typeIndicator = new GenericTypeIndicator<List<News>>() {};
                  News news = dataSnapshot.getValue(News.class);
                  newses.add(news);
                  getNews()  ;

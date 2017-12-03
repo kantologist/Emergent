@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -99,6 +102,14 @@ public class HomeActivity extends AppCompatActivity
                 .build();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+        Job download = dispatcher.newJobBuilder()
+                .setService(DownloadService.class)
+                .setTag("download-tag")
+                .build();
+
+        dispatcher.mustSchedule(download);
 
 
 
@@ -196,10 +207,10 @@ public class HomeActivity extends AppCompatActivity
 
     private void submitReport() {
         if (photoPath == null ) {
-            Toast.makeText(this, "Take a photo first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.photo_first), Toast.LENGTH_SHORT).show();
         } else {
 
-            Toast.makeText(this, "Posting report", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.posting_report), Toast.LENGTH_SHORT).show();
             File photo = new File("" + photoPath);
             mStorageReference = FirebaseStorage.getInstance().getReference("report_photos/" + photo.getName());
             InputStream is = null;
@@ -232,7 +243,7 @@ public class HomeActivity extends AppCompatActivity
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(HomeActivity.this, "Photo was not added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeActivity.this, getString(R.string.photo_unsuccessful), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -246,9 +257,9 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "reports written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.report_successful), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "reports not written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.report_unsuccessful), Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -272,8 +283,7 @@ public class HomeActivity extends AppCompatActivity
                         submitReport();
 
                 } else {
-                    Toast.makeText(this,"You have to grant permission to read the" +
-                            " storage to make a report", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getString(R.string.storage_permission), Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -302,6 +312,6 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "could not connect to google", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.google_unconnected), Toast.LENGTH_SHORT).show();
     }
 }

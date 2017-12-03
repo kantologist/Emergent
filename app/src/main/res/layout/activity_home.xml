@@ -22,14 +22,15 @@
                 android:layout_width="70dp"
                 android:scaleType="fitStart"
                 android:layout_height="wrap_content"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/logo"
+                android:contentDescription="@string/logo" />
 
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Lagos State"
+                android:text="@string/city_default"
                 android:textSize="23sp"
                 android:textColor="@android:color/white"/>
 
@@ -40,7 +41,7 @@
                 android:layout_gravity="center"
                 android:textSize="23sp"
                 android:textColor="@color/colorAccent"
-                android:text="Watchman"/>
+                android:text="@string/tag_default"/>
 
     </android.support.v7.widget.Toolbar>
 
@@ -49,7 +50,8 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:background="@color/colorPrimary"
-        android:src="@drawable/inform" />
+        android:src="@drawable/inform"
+        android:contentDescription="@string/city_image" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -72,13 +74,14 @@
                 android:layout_height="110dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:src="@drawable/ic_security" />
+                android:src="@drawable/ic_security"
+                android:contentDescription="@string/report_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Report"
+                android:text="@string/report"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
@@ -97,13 +100,14 @@
                 android:layout_height="110dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_green_dark"
-                android:src="@drawable/ic_library_books" />
+                android:src="@drawable/ic_library_books"
+                android:contentDescription="@string/news_feed_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="News"
+                android:text="@string/news"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
@@ -131,13 +135,14 @@
                 android:layout_height="110dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_orange_dark"
-                android:src="@drawable/ic_call" />
+                android:src="@drawable/ic_call"
+                android:contentDescription="@string/call_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Call"
+                android:text="@string/call"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
@@ -156,13 +161,14 @@
                 android:layout_height="110dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:src="@drawable/ic_map" />
+                android:src="@drawable/ic_map"
+                android:contentDescription="@string/community_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Community help"
+                android:text="@string/community"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>

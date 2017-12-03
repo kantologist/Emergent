@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
+import com.example.femi.emergent.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -41,7 +43,7 @@ public class Utils {
             try{
                 photoFile = createImageFile(context);
             } catch (IOException e) {
-                Toast.makeText(context, "File could not be created. try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.file_not_created), Toast.LENGTH_SHORT).show();
             }
 
             if(photoFile != null ){

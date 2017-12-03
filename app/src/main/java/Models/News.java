@@ -1,17 +1,21 @@
 package Models;
 
+import android.os.Bundle;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import icepick.Bundler;
+
 /**
  * Created by femi on 5/14/17.
  */
 
 @IgnoreExtraProperties
-public class News {
+public class News implements Bundler<News> {
     private String author;
     private String title;
     private String description;
@@ -88,5 +92,15 @@ public class News {
         result.put("published", published);
 
         return result;
+    }
+
+    @Override
+    public void put(String s, News news, Bundle bundle) {
+
+    }
+
+    @Override
+    public News get(String s, Bundle bundle) {
+        return null;
     }
 }

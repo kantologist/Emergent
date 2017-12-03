@@ -66,8 +66,8 @@ public class EmergentWidget extends AppWidgetProvider {
             callIntent.setData(Uri.parse("tel:" + context.getString(R.string.emergency_number)));
             if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE)
                     != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(context, "open Emergent app and grant " +
-                        "call permission to use this", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.call_permission),
+                        Toast.LENGTH_SHORT).show();
 
                 return;
             }
@@ -75,7 +75,6 @@ public class EmergentWidget extends AppWidgetProvider {
 
         }
         if(REPORT.equals(intent.getAction())){
-            Toast.makeText(context, "report called", Toast.LENGTH_SHORT).show();
             Intent reportIntent = new Intent(context, HomeActivity.class);
             reportIntent.putExtra("report","report");
             reportIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

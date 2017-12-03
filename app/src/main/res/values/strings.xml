@@ -2,6 +2,11 @@
     <string name="app_name">Emergent</string>
     <string name="Toolbar">Report</string>
     <string name="report">Report</string>
+    <string name="call">Call</string>
+    <string name="news">News</string>
+    <string name="community">Community Help</string>
+    <string name="home">Home</string>
+    <string name="about">About</string>
     <string name="inform">Be informed</string>
     <string name="map">Help around</string>
     <string name="openDrawer">open</string>
@@ -10,4 +15,55 @@
     <string name="title_activity_maps">Map</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="event_image">Image of event</string>
+    <string name="news_image">Image of news</string>
+    <string name="report_image">Click to report</string>
+    <string name="call_image">Click to make an emergency call</string>
+    <string name="news_feed_image">Click to see news feed</string>
+    <string name="community_image">Click for community help</string>
+    <string name="title_placeholder">Enter Title</string>
+    <string name="desc_placeholder">Enter description</string>
+    <string name="author_placeholder">Enter author</string>
+    <string name="submit_button">Submit</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="logo">Emergent logo</string>
+    <string name="city_default">Lagos State</string>
+    <string name="tag_default">Watchman</string>
+    <string name="city_image">image of a city</string>
+    <string name="more">More</string>
+    <string name="welcome">Welcome To Emergent</string>
+    <string name="banner_image">main banner image</string>
+    <string name="ok">ok</string>
+    <string name="direction">Get Direction</string>
+    <string name="sign_out">Sign Out</string>
+
+
+    <string name="suspended">Connection suspended</string>
+    <string name="location_internet">You need internet to get your current location</string>
+    <string name="photo_first">Take a photo first</string>
+    <string name="call_permission">open Emergent app and grant call permission to use this</string>
+    <string name="storage_permission">You have to grant permission to read the storage to make a report</string>
+
+    <string name="posting_report">Posting reports</string>
+    <string name="posting_event">Posting events</string>
+    <string name="posting_news">Posting news</string>
+
+    <string name="report_successful">Reports written successfully</string>
+    <string name="event_successful">Events written successfully</string>
+    <string name="news_successful">News written successfully</string>
+
+    <string name="report_unsuccessful">Reports not written successfully</string>
+    <string name="event_unsuccessful">Events not written successfully</string>
+    <string name="news_unsuccessful">News not written successfully</string>
+
+    <string name="photo_unsuccessful">Photo was not added successfully</string>
+
+    <string name="file_not_created">File could not be created. Try again</string>
+
+    <string name="google_unconnected">Could not connect to google</string>
+
+    <string name="authentication_failed">Authentification Failed</string>
+    <string name="google_play_error">Google Play Service Error.</string>
+
+
 </resources>

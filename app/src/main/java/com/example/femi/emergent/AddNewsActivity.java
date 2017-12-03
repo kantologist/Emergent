@@ -33,6 +33,8 @@ import Models.News;
 import Utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 public class AddNewsActivity extends AppCompatActivity {
@@ -42,13 +44,15 @@ public class AddNewsActivity extends AppCompatActivity {
     @BindView(R.id.news_image) ImageView image;
     @BindView(R.id.edit_title) EditText title;
     @BindView(R.id.edit_description) EditText desc;
-    @BindView(R.id.edit_author) EditText author;
+    @BindView(R.id.edit_author) EditText authorView;
     // utilities object
     Utils util = new Utils();
     static final int REQUEST_TAKE_PHOTO = 1;
     private DatabaseReference mDataBasereference;
     private StorageReference mStoragereference;
-    private Uri photoPath;
+    @State Uri photoPath;
+    @State String currentPhotoPath;
+    @State(News.class) News news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,16 @@ public class AddNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_news);
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
+        if(savedInstanceState != null){
+            Glide.with(getApplicationContext())
+                    .load(currentPhotoPath)
+                    .centerCrop()
+                    .into(image);
+        }
+
+
 
         mDataBasereference = FirebaseDatabase.getInstance().getReference();
 
@@ -91,7 +105,7 @@ public class AddNewsActivity extends AppCompatActivity {
     private void setEditingEnabled(boolean enabled) {
         title.setEnabled(enabled);
         desc.setEnabled(enabled);
-        author.setEnabled(enabled);
+        authorView.setEnabled(enabled);
         if (enabled) {
             submit.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.VISIBLE);
@@ -101,16 +115,22 @@ public class AddNewsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
+    }
+
     private void submitNews(){
         final String titleText = title.getText().toString();
         final String description = desc.getText().toString();
-        final String author = desc.getText().toString();
+        final String author = authorView.getText().toString();
         if (photoPath == null ) {
-            Toast.makeText(this, "Take a photo first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.photo_first), Toast.LENGTH_SHORT).show();
         } else {
             setEditingEnabled(false);
 
-            Toast.makeText(this, "Posting news", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.posting_news), Toast.LENGTH_SHORT).show();
             File photo = new File("" + photoPath);
             mStoragereference = FirebaseStorage.getInstance().getReference("news_photos/" + photo.getName());
 
@@ -127,15 +147,15 @@ public class AddNewsActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downLoadUrl = taskSnapshot.getDownloadUrl();
                             String imageurl = downLoadUrl.toString();
-                            News news = new News(author, titleText, description, " ", imageurl, " ", false);
-                            writeNews(news);
+                            news = new News(author, titleText, description, " ", imageurl, " ", false);
+                            writeNews();
                             setEditingEnabled(true);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddNewsActivity.this, "Photo was not added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddNewsActivity.this, getString(R.string.photo_unsuccessful), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -144,14 +164,14 @@ public class AddNewsActivity extends AppCompatActivity {
 
     }
 
-    private void writeNews(News news) {
+    private void writeNews() {
         mDataBasereference.child("news").push().setValue(news).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "news written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.news_successful), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "news not written successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.news_unsuccessful), Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -170,6 +190,7 @@ public class AddNewsActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             photoPath = Uri.parse(util.getCurrentPhotoPath());
+            currentPhotoPath = util.getCurrentPhotoPath();
             Glide.with(getApplicationContext())
                     .load(util.getCurrentPhotoPath())
                     .centerCrop()

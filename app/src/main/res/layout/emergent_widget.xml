@@ -22,13 +22,14 @@
                 android:layout_height="50dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:src="@drawable/ic_security" />
+                android:src="@drawable/ic_security"
+                android:contentDescription="@string/report_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Report"
+                android:text="@string/report"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
@@ -46,13 +47,14 @@
                 android:layout_height="50dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="@android:color/holo_orange_dark"
-                android:src="@drawable/ic_call" />
+                android:src="@drawable/ic_call"
+                android:contentDescription="@string/call_image" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Call"
+                android:text="@string/call"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body_text" />
         </LinearLayout>
