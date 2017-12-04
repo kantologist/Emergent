@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'MyAndroidKey'
             keyPassword 'emergent'
-            storeFile file("$rootDir/keystore.jks")
+            storeFile file("$projectDir/keystore.jks")
             storePassword 'emergent'
         }
     }

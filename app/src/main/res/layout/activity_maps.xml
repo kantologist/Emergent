@@ -17,7 +17,8 @@
      android:layout_margin="8dp"
      android:clickable="true"
      android:elevation="5dp"
-     android:layout_gravity="bottom|right|end"
+     android:layout_gravity="bottom|end"
+     android:contentDescription="@string/add_event"
      android:src="@drawable/ic_add"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />

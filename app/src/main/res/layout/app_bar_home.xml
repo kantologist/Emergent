@@ -53,6 +53,7 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:elevation="5dp"
+        android:contentDescription="@string/add_news"
         android:src="@drawable/ic_call"/>
 </android.support.design.widget.CoordinatorLayout>
 
