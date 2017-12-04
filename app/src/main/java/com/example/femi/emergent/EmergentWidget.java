@@ -1,6 +1,5 @@
 package com.example.femi.emergent;
 
-import android.*;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -12,7 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import Utils.Utils;
+import utils.Utils;
 import timber.log.Timber;
 
 /**

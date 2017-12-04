@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 /**
  * Created by femi on 4/14/17.

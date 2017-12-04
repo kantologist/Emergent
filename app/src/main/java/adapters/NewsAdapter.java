@@ -1,4 +1,4 @@
-package Adapters;
+package adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.femi.emergent.R;
 
 import java.util.List;
 
-import Models.News;
+import models.News;
 
 /**
  * Created by femi on 5/14/17.

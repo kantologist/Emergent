@@ -1,4 +1,4 @@
-package Rest;
+package rest;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

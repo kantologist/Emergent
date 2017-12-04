@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,8 +38,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
-import Models.Event;
-import Utils.Utils;
+import models.Event;
+import utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;

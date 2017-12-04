@@ -26,11 +26,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
-import Models.News;
-import Utils.Utils;
+import models.News;
+import utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;

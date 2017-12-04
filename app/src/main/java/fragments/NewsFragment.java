@@ -1,4 +1,4 @@
-package Fragments;
+package fragments;
 
  import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -23,8 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
  import java.util.ArrayList;
 import java.util.List;
 
-import Adapters.NewsAdapter;
- import Models.News;
+import adapters.NewsAdapter;
+ import models.News;
  import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -146,22 +146,6 @@ public class NewsFragment extends Fragment{
                  swipeRefreshLayout.setVisibility(View.GONE);
              }
          });
-//        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                GenericTypeIndicator<List<News>> typeIndicator = new GenericTypeIndicator<List<News>>();
-//                List<News> newsList = dataSnapshot.getValue(typeIndicator);
-//                getNews(newsList);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Timber.e(databaseError.toException());
-//            swipeRefreshLayout.setRefreshing(false);
-//            swipeRefreshLayout.setVisibility(View.GONE);
-//
-//            }
-//        });
     }
 
     @Override

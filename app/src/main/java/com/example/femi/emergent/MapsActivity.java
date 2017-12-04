@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +42,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import Models.Event;
+import models.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -203,7 +201,7 @@ public class MapsActivity extends FragmentActivity
     }
 
     private void addMarkers(Event event){
-        if(null != mMap){
+        if(mMap != null){
             Marker markerEvent = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(event.getLat(), event.getLon()))
                     .title(event.getTitle())

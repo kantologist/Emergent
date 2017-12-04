@@ -21,10 +21,10 @@ import timber.log.Timber;
 public class NewsActivity extends AppCompatActivity {
 
     @BindView(R.id.detail_toolbar) Toolbar toolbar;
-    @BindView(R.id.detail_image) ImageView detail_image;
-    @BindView(R.id.detail_title) TextView detail_title;
-    @BindView(R.id.detail_description) TextView detail_description;
-    @BindView(R.id.detail_author) TextView detail_author;
+    @BindView(R.id.detail_image) ImageView detailImage;
+    @BindView(R.id.detail_title) TextView detailTitle;
+    @BindView(R.id.detail_description) TextView detailDescription;
+    @BindView(R.id.detail_author) TextView detailAuthor;
     @BindView(R.id.detail_share) FloatingActionButton fab;
     @BindView(R.id.more) Button more;
 
@@ -42,16 +42,16 @@ public class NewsActivity extends AppCompatActivity {
         if(current != null && current.hasExtra("urlToImage")){
             Glide.with(getBaseContext())
                     .load(current.getStringExtra("urlToImage"))
-                    .into(detail_image);
+                    .into(detailImage);
         }
         if(current != null && current.hasExtra("title")){
-            detail_title.setText(current.getStringExtra("title"));
+            detailTitle.setText(current.getStringExtra("title"));
         }
         if(current != null && current.hasExtra("description")){
-            detail_description.setText(current.getStringExtra("description"));
+            detailDescription.setText(current.getStringExtra("description"));
         }
         if(current != null && current.hasExtra("author")){
-            detail_author.setText(current.getStringExtra("author"));
+            detailAuthor.setText(current.getStringExtra("author"));
         }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

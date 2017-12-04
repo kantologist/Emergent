@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
-import Fragments.NewsFragment;
+import fragments.NewsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.drawer) DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle toggle;
     @BindView(R.id.navigation_view) NavigationView navigationView;
-    @BindView(R.id.toolbar_image) ImageView toolbar_image;
+    @BindView(R.id.toolbar_image) ImageView toolbarImage;
     @BindView(R.id.title) CollapsingToolbarLayout toolbarLayout;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                ft = getSupportFragmentManager().beginTransaction();
                ft.replace(R.id.container, new NewsFragment(), NEWSFRAGMENT_TAG);
                ft.commit();
-               toolbar_image.setImageResource(R.drawable.inform);
+               toolbarImage.setImageResource(R.drawable.inform);
                toolbarLayout.setTitle(getString(R.string.inform));
                break;
            }
@@ -117,10 +117,7 @@ public class MainActivity extends AppCompatActivity
                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                        .withAboutIconShown(true)
                        .withAboutVersionShown(true)
-                       .withAboutDescription("Emergent was built by Oluwafemi Azeez.<br /> " +
-                               "Shoot me an email: <a href='mailto:azeezfemi17937@yahoo.com'>azeezfemi17937@yahoo.com</a> <br /> " +
-                               "This app is open sourced at <a href ='https://github.com/kantologist/Emergent'> github.com/kantologist/Emergent</a> <br />" +
-                               "Other open sourced libraries used are listed below.")
+                       .withAboutDescription(getString(R.string.about_description))
                        .start(this);
            }
            default:

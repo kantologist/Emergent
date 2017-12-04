@@ -4,9 +4,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'MyAndroidKey'
+            keyAlias 'key0'
             keyPassword 'emergent'
-            storeFile file("$projectDir/keystore.jks")
+            storeFile file("$rootDir/keystore")
             storePassword 'emergent'
         }
     }

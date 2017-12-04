@@ -63,7 +63,7 @@ implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
         if (authResult != null) {
             // Welcome the user
             FirebaseUser user = authResult.getUser();
-            Toast.makeText(this, "Welcome " + user.getEmail(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.welcome) + user.getEmail(), Toast.LENGTH_SHORT).show();
 
             // Go back to the main activity
             startActivity(new Intent(this, MainActivity.class));

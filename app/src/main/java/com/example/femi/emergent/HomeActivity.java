@@ -27,7 +27,6 @@ import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,19 +43,15 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import Models.News;
-import Models.Report;
-import Utils.Utils;
+import models.Report;
+import utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
-
-import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AppCompatActivity
         implements  GoogleApiClient.OnConnectionFailedListener{

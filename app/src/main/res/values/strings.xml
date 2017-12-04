@@ -68,5 +68,10 @@
     <string name="authentication_failed">Authentification Failed</string>
     <string name="google_play_error">Google Play Service Error.</string>
 
+    <string name="about_description">Emergent was built by Oluwafemi Azeez.<br />
+                               Shoot me an email: <a href='mailto:azeezfemi17937@yahoo.com'>azeezfemi17937@yahoo.com</a> <br />
+                               This app is open sourced at <a href ='https://github.com/kantologist/Emergent'> github.com/kantologist/Emergent</a> <br />
+                               Other open sourced libraries used are listed below.</string>
+
 
 </resources>

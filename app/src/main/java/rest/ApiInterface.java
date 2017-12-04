@@ -1,12 +1,6 @@
-package Rest;
+package rest;
 
-import android.os.Build;
-import android.support.compat.BuildConfig;
-
-import java.util.List;
-
-import Models.GetNews;
-import Models.News;
+import models.GetNews;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
